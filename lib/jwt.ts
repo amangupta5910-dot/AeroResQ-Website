@@ -1,25 +1,21 @@
-import jwt, { Secret, SignOptions } from "jsonwebtoken";
+import mongoose from "mongoose";
 
-const JWT_SECRET: Secret = process.env.JWT_SECRET || "default_jwt_secret_key";
+const MONGODB_URI = process.env.MONGODB_URI || "";
 
-export interface JwtPayload {
-  [key: string]: any;
+if (!MONGODB_URI) {
+  throw new Error("Please define the MONGODB_URI environment variable inside .env");
 }
 
-// Function 1: Generate Token
-export function generateToken(payload: JwtPayload) {
-  const options: SignOptions = {
-    expiresIn: (process.env.JWT_EXPIRES_IN || "7d") as SignOptions["expiresIn"],
-  };
+let cached = (global as any).mongoose || { conn: null, promise: null };
 
-  return jwt.sign(payload, JWT_SECRET, options);
-}
+async function connectDB() {
+  if (cached.conn) return cached.conn;
 
-// Function 2: Verify Token (Required by lib/auth.ts)
-export function verifyToken(token: string) {
-  try {
-    return jwt.verify(token, JWT_SECRET);
-  } catch (error) {
-    return null;
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(MONGODB_URI).then((m) => m);
   }
+  cached.conn = await cached.promise;
+  return cached.conn;
 }
+
+export default connectDB;

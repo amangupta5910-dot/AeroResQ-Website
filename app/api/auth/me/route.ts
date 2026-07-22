@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "@/lib/jwt";
 import User from "@/models/User"; // adjust model path if different
-import connectDB from "@/lib/db"; // adjust db path if different
+import connectDB from "@/lib/mongodb";// adjust db path if different
 
 export async function GET(req: NextRequest) {
   try {
