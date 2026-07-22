@@ -1,3 +1,4 @@
+import Image from "next/image";
 export default function Hero() {
   return (
     <section className="min-h-screen bg-[#050816] flex items-center">
@@ -49,11 +50,15 @@ export default function Hero() {
 
           <div className="w-[450px] h-[450px] rounded-full bg-orange-500/20 blur-3xl absolute"></div>
 
-          <div className="relative w-80 h-80 rounded-full border border-orange-500 flex items-center justify-center">
+          <div className="relative w-80 h-80  flex items-center justify-center">
 
-            <h2 className="text-white text-3xl font-bold">
-              🚁 Drone Model
-            </h2>
+            <Image
+  src="/images/logo/AeroResQ Logo.jpeg"
+  alt="AeroResQ Logo"
+  width={300}
+  height={300}
+  className="w-[300] h-[300] rounded-full"
+/>
 
           </div>
 
