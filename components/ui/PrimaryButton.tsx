@@ -19,7 +19,7 @@ type LinkProps = BaseProps &
 type PrimaryButtonProps = ButtonProps | LinkProps;
 
 export const PrimaryButton = (props: PrimaryButtonProps) => {
-  const commonClass = "your-button-styles"; // Keep your existing base styles here
+  const commonClass = "your-button-styles"; // Replace with your base styles
 
   if ("href" in props && props.href) {
     const { href, children, className, ...rest } = props;
@@ -46,5 +46,7 @@ export const PrimaryButton = (props: PrimaryButtonProps) => {
   );
 };
 
-// Add this line to resolve all default import errors across the app:
+// ----------------------------------------------------------------------
+// THIS LINE FIXES ALL 40 ERRORS AT ONCE:
+// ----------------------------------------------------------------------
 export default PrimaryButton;
