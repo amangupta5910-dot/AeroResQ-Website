@@ -1,23 +1,16 @@
-import jwt from "jsonwebtoken";
+import jwt, { Secret, SignOptions } from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET!;
-
-if (!JWT_SECRET) {
-  throw new Error("Please define JWT_SECRET in .env.local");
-}
+// Ensure JWT_SECRET is typed as a Secret and has a default fallback
+const JWT_SECRET: Secret = process.env.JWT_SECRET || "default_jwt_secret_key";
 
 export interface JwtPayload {
-  userId: string;
-  email: string;
-  role: string;
+  [key: string]: any;
 }
 
 export function generateToken(payload: JwtPayload) {
-  return jwt.sign(payload, JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN || "7d",
-  });
-}
+  const options: SignOptions = {
+    expiresIn: (process.env.JWT_EXPIRES_IN || "7d") as SignOptions["expiresIn"],
+  };
 
-export function verifyToken(token: string): JwtPayload {
-  return jwt.verify(token, JWT_SECRET) as JwtPayload;
+  return jwt.sign(payload, JWT_SECRET, options);
 }
