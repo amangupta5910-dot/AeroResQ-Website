@@ -64,13 +64,19 @@ export default function PrimaryButton(props: Props) {
     );
   }
 
-  const { children, className, ...rest } = props;
+  const {
+  children,
+  className,
+  type = "button",
+  ...rest
+} = props;
 
-  return (
-    <button
-      {...rest}
-      className={`${commonClass} ${className ?? ""}`}
-    >
+return (
+  <button
+    type={type}
+    {...rest}
+    className={`${commonClass} ${className ?? ""}`}
+  >
       {children}
       <ArrowRight size={18} />
     </button>
