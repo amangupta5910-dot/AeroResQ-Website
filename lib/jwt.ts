@@ -15,7 +15,7 @@ export function generateToken(payload: JwtPayload) {
   return jwt.sign(payload, JWT_SECRET, options);
 }
 
-// Function to verify tokens (required by lib/auth.ts)
+// Function to verify tokens (Required by lib/auth.ts)
 export function verifyToken(token: string) {
   try {
     return jwt.verify(token, JWT_SECRET);
