@@ -4,26 +4,20 @@ import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 
 import { getCurrentUser } from "@/lib/auth";
+import { verifyToken } from "@/lib/jwt";
 
 export async function GET() {
   try {
     await connectDB();
 
-    const payload = await getCurrentUser();
+   // Naya code (Type safe check):
+const payload = verifyToken(token) as { userId: string } | null;
 
-    if (!payload) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Unauthorized",
-        },
-        {
-          status: 401,
-        }
-      );
-    }
+if (!payload || typeof payload === "string" || !payload.userId) {
+  return NextResponse.json({ message: "Invalid or expired token" }, { status: 401 });
+}
 
-    const user = await User.findById(payload.userId).select("-password");
+const user = await User.findById(payload.userId).select("-password");
 
     if (!user) {
       return NextResponse.json(
