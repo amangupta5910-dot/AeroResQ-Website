@@ -3,9 +3,7 @@ import mongoose from "mongoose";
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable in .env.local"
-  );
+  throw new Error("MONGODB_URI is not defined.");
 }
 
 interface MongooseCache {
@@ -14,18 +12,17 @@ interface MongooseCache {
 }
 
 declare global {
-
   var mongooseCache: MongooseCache | undefined;
 }
 
-const cached: MongooseCache = global.mongooseCache || {
-  conn: null,
-  promise: null,
-};
+const cached =
+  global.mongooseCache ??
+  {
+    conn: null,
+    promise: null,
+  };
 
-if (!global.mongooseCache) {
-  global.mongooseCache = cached;
-}
+global.mongooseCache = cached;
 
 export async function connectDB() {
   if (cached.conn) {
@@ -33,20 +30,17 @@ export async function connectDB() {
   }
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => {
-      console.log("✅ MongoDB Connected Successfully");
-      return mongoose;
-    });
+    cached.promise = mongoose
+      .connect(MONGODB_URI!)
+      .then((mongoose) => {
+        console.log("✅ MongoDB Connected Successfully");
+        return mongoose;
+      });
   }
 
-  try {
-    cached.conn = await cached.promise;
-  } catch (error) {
-    cached.promise = null;
-    throw error;
-  }
+  cached.conn = await cached.promise;
 
   return cached.conn;
 }
-// Add this line at the end of lib/mongodb.ts:
+
 export default connectDB;
