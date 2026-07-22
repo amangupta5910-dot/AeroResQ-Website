@@ -24,12 +24,11 @@ export async function isAuthenticated() {
   return !!user;
 }
 
-export async function hasRole(
-  roles: string[]
-) {
-  const user = await getCurrentUser();
 
-  if (!user) {
+export function hasRole(token: string, roles: string[]) {
+  const user = verifyToken(token) as { role?: string } | null;
+
+  if (!user || typeof user === "string" || !user.role) {
     return false;
   }
 
