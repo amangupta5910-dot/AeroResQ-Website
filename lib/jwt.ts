@@ -6,7 +6,7 @@ export interface JwtPayload {
   [key: string]: any;
 }
 
-// Function to generate tokens
+// Function 1: Generate Token
 export function generateToken(payload: JwtPayload) {
   const options: SignOptions = {
     expiresIn: (process.env.JWT_EXPIRES_IN || "7d") as SignOptions["expiresIn"],
@@ -15,7 +15,7 @@ export function generateToken(payload: JwtPayload) {
   return jwt.sign(payload, JWT_SECRET, options);
 }
 
-// Function to verify tokens (Required by lib/auth.ts)
+// Function 2: Verify Token (Required by lib/auth.ts)
 export function verifyToken(token: string) {
   try {
     return jwt.verify(token, JWT_SECRET);
