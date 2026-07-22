@@ -14,7 +14,7 @@ interface MongooseCache {
 }
 
 declare global {
-  
+
   var mongooseCache: MongooseCache | undefined;
 }
 
@@ -48,3 +48,5 @@ export async function connectDB() {
 
   return cached.conn;
 }
+// Add this line at the end of lib/mongodb.ts:
+export default connectDB;
