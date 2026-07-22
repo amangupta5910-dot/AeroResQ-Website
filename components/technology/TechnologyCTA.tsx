@@ -1,6 +1,6 @@
 "use client";
 
-import PrimaryButton from "@/components/ui/PrimaryButton";
+import {PrimaryButton} from "@/components/ui/PrimaryButton";
 import SecondaryButton from "@/components/ui/SecondaryButton";
 
 export default function TechnologyCTA() {
