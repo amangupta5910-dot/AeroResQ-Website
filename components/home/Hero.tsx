@@ -53,7 +53,7 @@ export default function Hero() {
           <div className="relative w-80 h-80  flex items-center justify-center">
 
             <Image
-  src="/images/logo/AeroResQ Logo.jpeg"
+  src="/images/logo/AeroResQ2.jpeg"
   alt="AeroResQ Logo"
   width={300}
   height={300}
